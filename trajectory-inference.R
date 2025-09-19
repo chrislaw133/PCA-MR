@@ -193,7 +193,7 @@ expr <- expr[-959, ]
 GE_pace <- cbind(id = rownames(expr), expr)
 
 
-Get PCs to use as fixed covariates in LMM or in matrix eqtl
+#Get PCs to use as fixed covariates in LMM or in matrix eqtl
 library(data.table)
 library(FactoMineR)
 
