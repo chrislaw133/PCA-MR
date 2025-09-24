@@ -10,9 +10,9 @@ D11 = sc.read_h5ad('/path/to/D11.h5')
 D30 = sc.read_h5ad('/path/to/D30.h5') 
 D52 = sc.read_h5ad('/path/to/D52.h5') 
 
-D11_FPP = D11[D11.obs['celltype'] == 'P_FPP'].copy()
-D30_SERT = D30[(D30.obs['celltype'] == 'Sert') & (D30.obs['treatment'] == 'NONE')].copy()
-D52_SERT = D52[(D52.obs['celltype'] == 'Sert') & (D52.obs['treatment'] == 'NONE')].copy()
+D11_FPP = D11[(D11.obs['celltype'].isin(['FPP', 'NB'])) & (D11.obs['treatment'] == 'NONE')].copy()
+D30_SERT = D30[(D30.obs['celltype'].isin(['FPP', 'Sert'])) & (D30.obs['treatment'] == 'NONE')].copy()
+D52_SERT = D52[(D52.obs['celltype'].isin(['P_Sert', 'Sert'])) & (D52.obs['treatment'] == 'NONE')].copy()
 
 # read donor list - open sourced
 donor_df = pd.read_csv(
