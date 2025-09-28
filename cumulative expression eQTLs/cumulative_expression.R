@@ -73,13 +73,6 @@ df_rna <- rds@assays$RNA$scale.data %>%
 
 rds@meta.data$cellid <- rownames(rds@meta.data)
 
-#Prepare exposureDat
-df_rna <- df_rna %>%
-  left_join(rds@meta.data, by = "cellid", suffix = c("", ".meta")) %>%
-  dplyr::select(donor_id, cellid, everything()) %>%
-  left_join(dfti %>% dplyr::select(cellid, slingPseudotime_1), by = "cellid")
-
-
 #first extract the processed RNA abundance levels
 df_rna <- rds@assays$RNA$scale.data %>% t() %>% as_tibble()
 df_rna$cellid <- colnames(rds)
