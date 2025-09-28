@@ -94,7 +94,14 @@ df_rna <- df_rna %>%
 df_rna <- df_rna %>% mutate(pseudotime=round(slingPseudotime_1))
 setnames(df_rna, "donor_id", "id")
 
-#Cumulative expression function
+library(data.table)
+library(tidyverse)
+library(fdapace)
+library(pracma)
+
+df_rna <- fread("/deac/bio/lackGrp/lawrcm22/serotonin_eqtl/rnaseq/express.txt")
+genelist <- fread("/deac/bio/lackGrp/lawrcm22/serotonin_eqtl/rnaseq/finalgeneslist.txt", header = FALSE)[[1]]
+
 cum_expression <- function(exposureDat, genelist, id_var = "id", pseudotime_var = "pseudotime") {
   library(tidyverse)
   library(fdapace)
@@ -116,6 +123,7 @@ cum_expression <- function(exposureDat, genelist, id_var = "id", pseudotime_var 
     arrange(.data[[pseudotime_var]]) %>%
     group_split()
 
+  # keep only donors with >1 timepoint
   s <- s[lengths(s) > 1]
   if (length(s) == 0) {
     return(setNames(rep(NA_real_, length(all_donors)), all_donors))
@@ -128,25 +136,26 @@ cum_expression <- function(exposureDat, genelist, id_var = "id", pseudotime_var 
     FPCA(ly, lt, optns = list(dataType = "Sparse")),
     error = function(e) NULL
   )
-
   if (is.null(res) || is.null(res$xiEst) || is.null(res$phi)) {
     return(setNames(rep(NA_real_, length(all_donors)), all_donors))
   }
 
-  T <- res$workGrid
-  m <- pracma::trapz(T, res$mu)
-  b <- apply(res$phi, 2, function(col) pracma::trapz(T, col))
-  vals <- as.numeric(m + res$xiEst %*% b)
+  # reconstruct donor curves and integrate
+  Ti_est <- res$workGrid
+  x_it <- t(matrix(replicate(length(s), res$mu), ncol = length(s))) +
+    res$xiEst %*% t(res$phi)
+
+  xcum <- map_dbl(1:length(s), function(i) {
+    trapz(x = Ti_est, y = x_it[i, ])
+  })
 
   donor_ids <- map_chr(s, ~ as.character(unique(.x[[id_var]])[1]))
   out <- setNames(rep(NA_real_, length(all_donors)), as.character(all_donors))
-  out[donor_ids] <- vals
+  out[donor_ids] <- xcum
 
-  # Force consistent order
   return(out[as.character(all_donors)])
 }
 
-  
   # build donor × gene matrix
   cum_list <- lapply(genelist, fullPACE)
   cum_mat <- do.call(cbind, cum_list)
