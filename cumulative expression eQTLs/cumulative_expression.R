@@ -31,10 +31,10 @@ library(SingleCellExperiment)
 library(tidyverse)
 
 use_condaenv("atacseq-env",
-             conda="/deac/opt/rocky9-noarch/anaconda3/bin/conda",
+             conda="/path/to/anaconda3/bin/conda",
              required=TRUE)
 
-rds <- sceasy::convertFormat("/deac/bio/lackGrp/lawrcm22/serotonin_eqtl/rnaseq/FPP_SERT.h5ad", from="anndata", to="seurat")
+rds <- sceasy::convertFormat("/path/to/FPP_SERT.h5ad", from="anndata", to="seurat")
 
 #Intersect genes in RNA expression dataset and genes_hg19
 genelist <- rownames(rds)
@@ -98,9 +98,6 @@ library(data.table)
 library(tidyverse)
 library(fdapace)
 library(pracma)
-
-df_rna <- fread("/deac/bio/lackGrp/lawrcm22/serotonin_eqtl/rnaseq/express.txt")
-genelist <- fread("/deac/bio/lackGrp/lawrcm22/serotonin_eqtl/rnaseq/finalgeneslist.txt", header = FALSE)[[1]]
 
 cum_expression <- function(exposureDat, genelist, id_var = "id", pseudotime_var = "pseudotime") {
   library(tidyverse)
