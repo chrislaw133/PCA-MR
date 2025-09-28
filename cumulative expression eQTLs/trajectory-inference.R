@@ -14,9 +14,8 @@ rds <- sceasy::convertFormat("path/to/combined.h5ad", from="anndata", to="seurat
 #Quality control
 mat <- rds@assays$RNA@data
 rds$percent.mt <- Matrix::colSums(mat[mito.genes, , drop = FALSE]) / Matrix::colSums(mat) * 100
-rds$percent.rb <- Matrix::colSums(mat[ribo.genes, , drop = FALSE]) / Matrix::colSums(mat) * 100
 rds$nFeature_RNA <- Matrix::colSums(rds@assays$RNA@data > 0)
-rds <- subset(rds, subset = nFeature_RNA > 200 & percent.mt < 20 & percent.rb < 20)
+rds <- subset(rds, subset = nFeature_RNA > 200 & percent.mt < 10)
 
 rds[["RNA"]]@meta.features <- data.frame(row.names = rownames(rds))
 
