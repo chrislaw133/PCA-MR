@@ -66,11 +66,6 @@ SetIdent(rds,value="seurat_clusters")
 dfti <- fread("")
 #setnames(dfti, "rn", "cellid")
 
-df_rna <- rds@assays$RNA$scale.data %>% 
-  t() %>% 
-  as.data.frame() %>%
-  tibble::rownames_to_column("cellid")
-
 rds@meta.data$cellid <- rownames(rds@meta.data)
 
 #first extract the processed RNA abundance levels
