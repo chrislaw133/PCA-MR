@@ -48,11 +48,14 @@ pca_mr <- function(bx, by, sey, ld, neff, overlap_frac = 1) {
   phi <- max(1, Qstat / df)
   se <- se_fe * sqrt(phi)
   p <- 2 * pnorm(-abs(slope / se))
+  Q_pval <- pchisq(Qstat, df = df, lower.tail = FALSE)
+              
 
   list(
     slope = slope,
     se = se,
     p = p,
+    Q_pval = Q_pval, 
     n_modes = length(keep),
     var_expl = 100 * sum(var_frac[keep])
   )
