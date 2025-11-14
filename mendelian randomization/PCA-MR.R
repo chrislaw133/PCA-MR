@@ -36,8 +36,17 @@ pca_mr <- function(bx, by, sey, ld, neff, overlap_frac = 1) {
   by_tilde <- by_tilde[keep]
   se_gwas_tilde <- se_gwas_tilde[keep]
   Lambda_keep <- Lambda[keep]
-
-  Multiplicative random-effects IVW regression
+  if (length(Lambda_keep) <= 1) {
+    return(list(
+    slope = NA,
+    p = NA,
+    Q_pval = NA,
+    n_modes = NA,
+    se = NA,
+    var_expl = NA
+    ))
+  } else {
+  #Multiplicative random-effects IVW regression
   w <- Lambda_keep / (se_gwas_tilde^2)
   slope <- sum(w * bx_tilde * by_tilde) / sum(w * bx_tilde^2)
 
@@ -49,7 +58,7 @@ pca_mr <- function(bx, by, sey, ld, neff, overlap_frac = 1) {
   se <- se_fe * sqrt(phi)
   p <- 2 * pnorm(-abs(slope / se))
   Q_pval <- pchisq(Qstat, df = df, lower.tail = FALSE)
-              
+  }
 
   list(
     slope = slope,
