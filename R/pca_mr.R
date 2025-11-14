@@ -3,6 +3,7 @@
 #' Performs PCA-based Mendelian randomization using spectral decomposition of LD
 #' and multiplicative random-effects IVW in rotated space.
 #'
+#' @details
 #' **Important:** Make sure your vectors and ld matrix are aligned and in the correct order!
 #'
 #' @param bx Numeric vector of SNP exposure effects.
