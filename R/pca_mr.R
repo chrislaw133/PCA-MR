@@ -20,7 +20,9 @@ pca_mr <- function(bx, by, sey, ld, neff, overlap_frac = 1) {
 
   if (!is.numeric(neff))
     stop("neff must be numeric")
-
+  
+  ld <- (ld + t(ld)) / 2
+  diag(ld) <- 1
   eig <- eigen(ld, symmetric = TRUE)
   Q <- eig$vectors
   Lambda <- pmax(eig$values, 1e-8)
