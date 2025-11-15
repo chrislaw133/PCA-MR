@@ -39,6 +39,7 @@ use_condaenv("atacseq-env",
 rds <- sceasy::convertFormat("/path/to/FPP_SERT.h5ad", from="anndata", to="seurat")
 
 #Quality control
+mito.genes <- grep("^MT-", rownames(rds), value = TRUE)
 mat <- rds@assays$RNA@data
 rds$percent.mt <- Matrix::colSums(mat[mito.genes, , drop = FALSE]) / Matrix::colSums(mat) * 100
 rds$nFeature_RNA <- Matrix::colSums(rds@assays$RNA@data > 0)
