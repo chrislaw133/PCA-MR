@@ -1,6 +1,13 @@
 #Fetch protein coding genes
 library(biomaRt)
 library(data.table)
+library(tidyverse)
+library(fdapace)
+library(pracma)
+library(sceasy)
+library(Seurat)
+library(SingleCellExperiment)
+library(tidyverse)
 
 # Connect to Ensembl GRCh37 (hg19) archive
 ensembl37 <- useEnsembl(
@@ -25,16 +32,20 @@ genes_hg19 <- getBM(
 genes_hg19 <- genes_hg19[genes_hg19$hgnc_symbol != "", ]
 
 #Read in RNA expression
-library(sceasy)
-library(Seurat)
-library(SingleCellExperiment)
-library(tidyverse)
-
 use_condaenv("atacseq-env",
              conda="/path/to/anaconda3/bin/conda",
              required=TRUE)
 
 rds <- sceasy::convertFormat("/path/to/FPP_SERT.h5ad", from="anndata", to="seurat")
+
+# Mito genes
+mito.genes <- grep("^MT-", rownames(rds), value = TRUE)
+mat <- rds@assays$RNA@data
+
+rds$percent.mt <- Matrix::colSums(mat[mito.genes, , drop = FALSE]) / Matrix::colSums(mat) * 100
+rds$nFeature_RNA <- Matrix::colSums(rds@assays$RNA@data > 0)
+
+rds <- subset(rds, subset = nFeature_RNA > 200 & percent.mt < 10)
 
 #Intersect genes in RNA expression dataset and genes_hg19
 genelist <- rownames(rds)
@@ -63,7 +74,7 @@ rds <- FindClusters(rds, resolution = 0.5)
 SetIdent(rds,value="seurat_clusters")
 
 #Read in slingshot trajectories derived from HVGs
-dfti <- fread("")
+dfti <- fread("/path/to/dfti.txt")
 #setnames(dfti, "rn", "cellid")
 
 rds@meta.data$cellid <- rownames(rds@meta.data)
@@ -81,11 +92,6 @@ df_rna <- df_rna %>%
 # transfer pseudotime points to time period (by rounding the pseudotime)
 df_rna <- df_rna %>% mutate(pseudotime=round(slingPseudotime_1))
 setnames(df_rna, "donor_id", "id")
-
-library(data.table)
-library(tidyverse)
-library(fdapace)
-library(pracma)
 
 cum_expression <- function(exposureDat, genelist, id_var = "id", pseudotime_var = "pseudotime") {
   library(tidyverse)
