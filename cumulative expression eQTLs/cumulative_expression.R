@@ -38,13 +38,10 @@ use_condaenv("atacseq-env",
 
 rds <- sceasy::convertFormat("/path/to/FPP_SERT.h5ad", from="anndata", to="seurat")
 
-# Mito genes
-mito.genes <- grep("^MT-", rownames(rds), value = TRUE)
+#Quality control
 mat <- rds@assays$RNA@data
-
 rds$percent.mt <- Matrix::colSums(mat[mito.genes, , drop = FALSE]) / Matrix::colSums(mat) * 100
 rds$nFeature_RNA <- Matrix::colSums(rds@assays$RNA@data > 0)
-
 rds <- subset(rds, subset = nFeature_RNA > 200 & percent.mt < 10)
 
 #Intersect genes in RNA expression dataset and genes_hg19
