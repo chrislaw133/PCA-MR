@@ -3,6 +3,9 @@ library(Seurat)
 library(SingleCellExperiment)
 library(tidyverse)
 library(data.table)
+library(SingleCellExperiment)
+library(slingshot)
+library(data.table)
 
 #Load in rna seq
 use_condaenv("atacseq-env",
@@ -12,6 +15,7 @@ use_condaenv("atacseq-env",
 rds <- sceasy::convertFormat("path/to/combined.h5ad", from="anndata", to="seurat")
 
 #Quality control
+mito.genes <- grep("^MT-", rownames(rds), value = TRUE)
 mat <- rds@assays$RNA@data
 rds$percent.mt <- Matrix::colSums(mat[mito.genes, , drop = FALSE]) / Matrix::colSums(mat) * 100
 rds$nFeature_RNA <- Matrix::colSums(rds@assays$RNA@data > 0)
@@ -48,9 +52,6 @@ DimPlot(rds, group.by = 'celltype')
 DimPlot(rds, group.by = 'time_point')
 
 #Slingshot - Trajectory inference
-library(SingleCellExperiment)
-library(slingshot)
-library(data.table)
 sce <- as.SingleCellExperiment(rds)
 sce <- slingshot(sce,reducedDim="UMAP")
 dfti <- sce@colData
