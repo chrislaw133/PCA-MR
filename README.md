@@ -27,7 +27,7 @@ vector <- as.numeric(readLines("path/to/vector.txt")
 ### Usage
 
 ``` r
-pca_mr(bx, by, sey, ld, neff, overlap_frac = 1)
+pca_mr(bx, by, sey, ld, overlap_frac = 1)
 ```
 
 
