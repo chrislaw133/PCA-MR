@@ -13,13 +13,6 @@
 #'
 #' @export
 pca_mr <- function(bx, by, sey, ld, overlap_frac = 1) {
-
-  if (length(neff) != length(sey))
-    stop(sprintf("Length mismatch in neff vs sey: %d vs %d", length(neff), length(sey)))
-
-  if (!is.numeric(neff))
-    stop("neff must be numeric")
-  
   ld <- (ld + t(ld)) / 2
   diag(ld) <- 1
   eig <- eigen(ld, symmetric = TRUE)
