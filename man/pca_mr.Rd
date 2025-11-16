@@ -4,7 +4,7 @@
 \alias{pca_mr}
 \title{PCA-MR: PCA-based MR using correlated instruments}
 \usage{
-pca_mr(bx, by, sey, ld, overlap_frac = 1)
+pca_mr(bx, by, sey, ld)
 }
 \arguments{
 \item{bx}{Numeric vector of SNP exposure effects.}
@@ -14,8 +14,6 @@ pca_mr(bx, by, sey, ld, overlap_frac = 1)
 \item{sey}{Numeric vector of standard errors of outcome effects}
 
 \item{ld}{SNP correlation matrix}
-
-\item{overlap_frac}{Proportion of SNP-level sample overlap (default=1).}
 }
 \value{
 A named list with slope, se, p, Q_pval, n_modes, var_expl.
