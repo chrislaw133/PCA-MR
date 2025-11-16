@@ -7,12 +7,11 @@
 #' @param by Numeric vector of SNP outcome effects.
 #' @param sey Numeric vector of standard errors of outcome effects
 #' @param ld SNP correlation matrix
-#' @param overlap_frac Proportion of SNP-level sample overlap (default=1).
 #'
 #' @return A named list with slope, se, p, Q_pval, n_modes, var_expl.
 #'
 #' @export
-pca_mr <- function(bx, by, sey, ld, overlap_frac = 1) {
+pca_mr <- function(bx, by, sey, ld) {
   ld <- (ld + t(ld)) / 2
   diag(ld) <- 1
   eig <- eigen(ld, symmetric = TRUE)
