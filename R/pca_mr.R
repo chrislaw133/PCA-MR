@@ -7,13 +7,12 @@
 #' @param by Numeric vector of SNP outcome effects.
 #' @param sey Numeric vector of standard errors of outcome effects
 #' @param ld SNP correlation matrix
-#' @param neff Vector of effective sample sizes for each SNP. If unavailable, use the GWAS sample size for every SNP
 #' @param overlap_frac Proportion of SNP-level sample overlap (default=1).
 #'
 #' @return A named list with slope, se, p, Q_pval, n_modes, var_expl.
 #'
 #' @export
-pca_mr <- function(bx, by, sey, ld, neff, overlap_frac = 1) {
+pca_mr <- function(bx, by, sey, ld, overlap_frac = 1) {
 
   if (length(neff) != length(sey))
     stop(sprintf("Length mismatch in neff vs sey: %d vs %d", length(neff), length(sey)))
@@ -27,13 +26,7 @@ pca_mr <- function(bx, by, sey, ld, neff, overlap_frac = 1) {
   Q <- eig$vectors
   Lambda <- pmax(eig$values, 1e-8)
 
-  N_mat  <- outer(as.numeric(neff), as.numeric(neff),
-                  function(Ni, Nj) sqrt(Ni * Nj))
-  Nij_mat <- outer(as.numeric(neff), as.numeric(neff),
-                   function(Ni, Nj) overlap_frac * pmin(Ni, Nj))
-  overlap_scale <- Nij_mat / N_mat
-
-  cov_gwas <- (sey %o% sey) * ld * overlap_scale
+  cov_gwas <- (sey %o% sey) * ld
   cov_gwas_tilde <- t(Q) %*% cov_gwas %*% Q
   se_gwas_tilde <- sqrt(diag(cov_gwas_tilde))
 
