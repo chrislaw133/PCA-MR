@@ -1,9 +1,22 @@
-library(simmrd)
-library(MendelianRandomization)
-library(Matrix)
-library(data.table)
+#!/bin/bash
 
-#Individual-level parameters
+Rscript --vanilla - <<'EOF'
+suppressPackageStartupMessages({
+  library(simmrd)
+  library(MendelianRandomization)
+  library(Matrix)
+  library(data.table)
+})
+
+#Get replication ID
+rep_id <- as.numeric(Sys.getenv("SLURM_ARRAY_TASK_ID"))
+if (is.na(rep_id)) rep_id <- 1
+cat(sprintf("🧬 Running replicate %d\n", rep_id))
+
+#Output direcotry
+outdir <- ""
+
+# === Individual-level simulation parameters ===
 individual_params <- list(
   sample_size_Xs = 20000,
   sample_size_Y = 20000,
@@ -61,7 +74,7 @@ pca_mr <- function(bx, by, se_y, ld) {
 }
 
 # === One replicate ===
-run_one_sim <- function(individual_params) {
+run_one_sim <- function(individual_params, r) {
     gwas_data <- generate_individual(params = individual_params, seed = sample.int(1e8, 1))
       
       bx <- as.numeric(gwas_data$bx)
@@ -79,6 +92,7 @@ run_one_sim <- function(individual_params) {
       pca   <- tryCatch(pca_mr(bx, by, byse, LD), error = function(e) NULL)
       
       data.frame(
+        rep = r,
         slope_pca   = if (!is.null(pca)) pca$slope else NA,
         p_pca       = if (!is.null(pca)) pca$p else NA,
         Q_pval      = if (!is.null(pca)) pca$Q_pval else NA,
@@ -87,5 +101,12 @@ run_one_sim <- function(individual_params) {
       )
     }
 
-res <- run_one_sim(individual_params)
+#Run replicate
+set.seed(rep_id)
+res <- run_one_sim(individual_params, rep_id)
 
+# === Write output ===
+outfile <- file.path(outdir, sprintf("null_rep_%04d.csv", rep_id))
+fwrite(res, outfile, sep = "\t")
+
+EOF
