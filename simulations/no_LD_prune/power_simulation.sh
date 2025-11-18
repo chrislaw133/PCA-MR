@@ -8,7 +8,7 @@ suppressPackageStartupMessages({
   library(data.table)
 })
 
-# === Get replicate ID ===
+#Get replicate ID
 rep_id <- as.numeric(Sys.getenv("SLURM_ARRAY_TASK_ID"))
 if (is.na(rep_id)) rep_id <- 1
 cat(sprintf("🧬 Running replicate %d\n", rep_id))
@@ -73,7 +73,7 @@ pca_mr <- function(bx, by, se_y, ld) {
   list(slope = slope, se = se, p = p, Q_pval = Q_pval)
 }
 
-#One replicate
+#One replicate function
 run_one_sim <- function(individual_params, r) {
     gwas_data <- generate_individual(params = individual_params, seed = sample.int(1e8, 1))
       
