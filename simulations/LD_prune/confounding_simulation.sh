@@ -47,32 +47,6 @@ individual_params <- list(
   fix_Fstatistic_at = 10
 )
 
-#PCA-MR function
-pca_mr <- function(bx, by, se_y, ld) {
-  eig <- eigen(ld, symmetric = TRUE)
-  Q <- eig$vectors
-  Lambda <- pmax(eig$values, 1e-8)
-  bx_tilde <- as.numeric(crossprod(Q, bx))
-  by_tilde <- as.numeric(crossprod(Q, by))
-  cov_gwas <- (se_y %o% se_y) * ld
-  cov_tilde <- t(Q) %*% cov_gwas %*% Q
-  se_tilde <- sqrt(diag(cov_tilde))
-  var_frac <- Lambda / sum(Lambda)
-  keep <- which(cumsum(var_frac) <= 0.99)
-  if (length(keep) == 0) keep <- which.max(var_frac)
-  bx_tilde <- bx_tilde[keep]; by_tilde <- by_tilde[keep]; se_tilde <- se_tilde[keep]
-  Lambda <- Lambda[keep]
-  w <- Lambda / (se_tilde^2)
-  w_se <- 1 / se_tilde^2
-  slope <- sum(w * bx_tilde * by_tilde) / sum(w * bx_tilde^2)
-  resid <- by_tilde - slope * bx_tilde
-  Qstat <- sum(w * resid^2)
-  phi <- max(1, Qstat / (length(bx_tilde) - 1))
-  se <- sqrt(1 / sum(w_se * bx_tilde^2)) * sqrt(phi)
-  p <- 2 * pnorm(-abs(slope / se))
-  list(slope = slope, se = se, p = p)
-}
-
 #One replicate function
 run_one_sim <- function(individual_params, r) {
   gwas_data <- generate_individual(individual_params, seed = sample.int(1e8, 1))
