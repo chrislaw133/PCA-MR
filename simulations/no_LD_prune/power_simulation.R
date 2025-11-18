@@ -1,7 +1,20 @@
-library(simmrd)
-library(MendelianRandomization)
-library(Matrix)
-library(data.table)
+#!/bin/bash
+
+Rscript --vanilla - <<'EOF'
+suppressPackageStartupMessages({
+  library(simmrd)
+  library(MendelianRandomization)
+  library(Matrix)
+  library(data.table)
+})
+
+# === Get replicate ID ===
+rep_id <- as.numeric(Sys.getenv("SLURM_ARRAY_TASK_ID"))
+if (is.na(rep_id)) rep_id <- 1
+cat(sprintf("🧬 Running replicate %d\n", rep_id))
+
+#Output directory
+outdir <- ""
 
 #Individual-level simulation
 individual_params <- list(
@@ -12,7 +25,7 @@ individual_params <- list(
   phenotypic_correlation_Xs = 0,
   genetic_correlation_Xs = c(0, 0),
   Xs_variance_explained_by_U = 0,
-  Y_variance_explained_by_Xs = 0.01, #0.01, 0.05, 0.03, 0.01
+  Y_variance_explained_by_Xs = 0.0009,
   signs_of_causal_effects = 1,
   Y_variance_explained_by_U = 0,
   number_of_causal_SNPs = 10,
@@ -61,8 +74,8 @@ pca_mr <- function(bx, by, se_y, ld) {
 }
 
 #One replicate
-run_one_sim <- function(individual_params) {
-    gwas_data <- generate_individual(params = individual_params)
+run_one_sim <- function(individual_params, r) {
+    gwas_data <- generate_individual(params = individual_params, seed = sample.int(1e8, 1))
       
       bx <- as.numeric(gwas_data$bx)
       by <- as.numeric(gwas_data$by)
@@ -88,4 +101,12 @@ run_one_sim <- function(individual_params) {
       )
     }
 
-res <- run_one_sim(individual_params)
+#Run replicate
+set.seed(rep_id)
+res <- run_one_sim(individual_params, rep_id)
+
+#Write output
+outfile <- file.path(outdir, sprintf("null_rep_%04d.csv", rep_id))
+fwrite(res, outfile, sep = "\t")
+
+EOF
