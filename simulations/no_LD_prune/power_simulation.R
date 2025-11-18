@@ -62,7 +62,7 @@ pca_mr <- function(bx, by, se_y, ld) {
 
 #One replicate
 run_one_sim <- function(individual_params) {
-    gwas_data <- generate_individual(params = individual_params, seed = sample.int(1e8, 1))
+    gwas_data <- generate_individual(params = individual_params)
       
       bx <- as.numeric(gwas_data$bx)
       by <- as.numeric(gwas_data$by)
