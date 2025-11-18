@@ -106,7 +106,7 @@ run_one_sim <- function(individual_params, r) {
 set.seed(rep_id)
 res <- run_one_sim(individual_params, rep_id)
 
-# === Write output ===
+#Write output
 outfile <- file.path(outdir, sprintf("null_rep_%04d.csv", rep_id))
 fwrite(res, outfile, sep = "\t")
 
