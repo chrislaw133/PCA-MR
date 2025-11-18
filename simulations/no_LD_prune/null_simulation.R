@@ -87,7 +87,5 @@ run_one_sim <- function(individual_params) {
       )
     }
 
-# === Run replicate ===
 res <- run_one_sim(individual_params)
 
-EOF
