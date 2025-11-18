@@ -46,7 +46,7 @@ individual_params <- list(
   fix_Fstatistic_at = 10
 )
 
-# === PCA-MR definition ===
+#PCA-MR function
 pca_mr <- function(bx, by, se_y, ld) {
   eig <- eigen(ld, symmetric = TRUE)
   Q <- eig$vectors
@@ -73,7 +73,7 @@ pca_mr <- function(bx, by, se_y, ld) {
   list(slope = slope, se = se, p = p, Q_pval = Q_pval)
 }
 
-# === One replicate ===
+#One replicate function
 run_one_sim <- function(individual_params, r) {
     gwas_data <- generate_individual(params = individual_params, seed = sample.int(1e8, 1))
       
@@ -105,7 +105,7 @@ run_one_sim <- function(individual_params, r) {
 set.seed(rep_id)
 res <- run_one_sim(individual_params, rep_id)
 
-# === Write output ===
+#Write output
 outfile <- file.path(outdir, sprintf("null_rep_%04d.csv", rep_id))
 fwrite(res, outfile, sep = "\t")
 
