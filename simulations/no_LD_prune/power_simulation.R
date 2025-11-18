@@ -25,7 +25,7 @@ individual_params <- list(
   phenotypic_correlation_Xs = 0,
   genetic_correlation_Xs = c(0, 0),
   Xs_variance_explained_by_U = 0,
-  Y_variance_explained_by_Xs = 0.0009,
+  Y_variance_explained_by_Xs = 0.01, #causal effect is sqrt(Y_variance_explained_by_Xs)
   signs_of_causal_effects = 1,
   Y_variance_explained_by_U = 0,
   number_of_causal_SNPs = 10,
