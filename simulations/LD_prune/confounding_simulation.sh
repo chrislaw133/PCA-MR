@@ -17,7 +17,7 @@ cat(sprintf("🧬 Running replicate %d\n", rep_id))
 outdir <- "/deac/bio/lackGrp/lawrcm22/serotonin_eqtl/null_simulations"
 dir.create(outdir, showWarnings = FALSE, recursive = TRUE)
 
-Individual-level simulation
+#Individual-level simulation
 individual_params <- list(
   sample_size_Xs = 2e4,
   sample_size_Y = 2e4,
