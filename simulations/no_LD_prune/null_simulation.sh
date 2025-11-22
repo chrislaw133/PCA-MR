@@ -16,7 +16,7 @@ cat(sprintf("🧬 Running replicate %d\n", rep_id))
 #Output direcotry
 outdir <- ""
 
-# === Individual-level simulation parameters ===
+#Individual-level simulation
 individual_params <- list(
   sample_size_Xs = 20000,
   sample_size_Y = 20000,
