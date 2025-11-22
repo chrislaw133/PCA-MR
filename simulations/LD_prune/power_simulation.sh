@@ -41,7 +41,7 @@ individual_params <- list(
   simtype = 'winners',
   MVMR_IV_selection_type = 'joint',
   IV_Pvalue_threshold = 1e-4,
-  LD_pruning_r2 = 1,
+  LD_pruning_r2 = 0.1,
   N_of_LD_ref = Inf,
   fix_Fstatistic_at = 10
 )
