@@ -14,8 +14,7 @@ if (is.na(rep_id)) rep_id <- 1
 cat(sprintf("🧬 Running replicate %d\n", rep_id))
 
 #Output directory
-outdir <- "/deac/bio/lackGrp/lawrcm22/serotonin_eqtl/null_simulations"
-dir.create(outdir, showWarnings = FALSE, recursive = TRUE)
+outdir <- ""
 
 #Invidual-level simulation
 individual_params <- list(
