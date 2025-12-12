@@ -9,7 +9,7 @@ install.packages("devtools")
 devtools::install_github("chrislaw133/PCA-MR")
 ```
 
-***Important:*** Make sure your alleles are aligned, and that your vectors are numeric and in the same order as your LD matrix!
+***Important:*** Make sure your alleles are aligned, and that your vectors are numeric and in the same order as the LD matrix!
 
 ### Read in plink .zst square matrix
 
