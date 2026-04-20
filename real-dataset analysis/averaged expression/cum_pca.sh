@@ -88,7 +88,6 @@ out_file <- file.path(out_dir, paste0("pca_methods_", job_id, "_part_", task_id,
 
 ############################################################
 ## TUNABLES
-## kept aligned with your pasted PCA simulation code
 ############################################################
 KEEP_VAR_IVW   <- 0.999
 KEEP_VAR_EGGER <- 0.999
@@ -148,9 +147,6 @@ condnum <- function(M) {
   max(ev) / min(ev)
 }
 
-############################################################
-## EXACT PCA/BURGESS METHOD LOGIC FROM YOUR SIM SCRIPT
-############################################################
 gls_egger <- function(bx_tilde, by_tilde, Omega, lambda) {
   n <- length(bx_tilde)
   p <- 2L
