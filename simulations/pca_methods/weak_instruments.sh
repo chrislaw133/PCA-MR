@@ -160,7 +160,7 @@ condnum <- function(M) {
   max(ev) / min(ev)
 }
 
-gls_egger <- function(bx_tilde, by_tilde, Omega, lambda = Lambda[keepF]) {
+gls_egger <- function(bx_tilde, by_tilde, Omega, lambda) {
   n <- length(bx_tilde)
   p <- 2L
 
