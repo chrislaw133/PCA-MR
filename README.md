@@ -11,7 +11,7 @@ devtools::install_github("chrislaw133/PCA-MR")
 
 ***Important:*** Make sure your alleles are aligned, and that your vectors are numeric and in the same order as the LD matrix!
 
-### Read in plink .zst square matrix
+### Read in plink .zst square matrix (SNP correlation matrix)
 
 ``` r
 library(data.table)
