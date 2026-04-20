@@ -15,7 +15,7 @@
 #' @export
 pcamr_ml <- function(bx, by, bxse, byse, ld,
                      keep_var = 0.999,
-                     min_modes = 1,
+                     min_modes = 2,
                      kappa_max = 100,
                      model = c("random", "fixed"),
                      alpha = 0.05) {
