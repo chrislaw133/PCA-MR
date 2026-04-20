@@ -27,7 +27,8 @@ pcamr_egger <- function(bx, by, bxse, byse, ld,
   fit <- .pcamr_gls_egger(
     bx_tilde = pc$bx,
     by_tilde = pc$by,
-    Omega = pc$Omega
+    Omega = pc$Omega,
+    Lambda = pc$Lambda
   )
 
   list(
