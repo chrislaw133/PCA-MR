@@ -24,7 +24,7 @@ ld <- as.matrix(fread(cmd = "unzstd -c plink.zst"))
 vector <- as.numeric(readLines("path/to/vector.txt")
 ```
 
-### Usage
+#### Usage
 
 ### PCA-MR-IVW
 
