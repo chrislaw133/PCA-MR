@@ -28,7 +28,7 @@ pcamr_egger <- function(bx, by, bxse, byse, ld,
     bx_tilde = pc$bx,
     by_tilde = pc$by,
     Omega = pc$Omega,
-    Lambda = pc$Lambda
+    Lambda = pc$lambda
   )
 
   list(
