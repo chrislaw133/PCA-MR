@@ -1,6 +1,6 @@
 # PCA-MR: PCA-Based Mendelian Randomization
 
-A package for performing two-sample mendeleian randomization with summary statistics.
+A package for performing two-sample mendelian randomization with summary statistics.
 
 ### Install from source
 
