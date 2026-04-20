@@ -24,11 +24,13 @@ pcamr_egger <- function(bx, by, bxse, byse, ld,
   if (is.null(pc)) return(NULL)
   if (pc$n_modes < 3) return(NULL)
 
+  Lambda <- diag(pc$lambda, nrow = length(pc$lambda), ncol = length(pc$lambda))
+  
   fit <- .pcamr_gls_egger(
     bx_tilde = pc$bx,
     by_tilde = pc$by,
     Omega = pc$Omega,
-    Lambda = pc$lambda
+    Lambda = Lambda
   )
 
   list(
