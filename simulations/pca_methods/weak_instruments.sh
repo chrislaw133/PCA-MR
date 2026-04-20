@@ -160,7 +160,7 @@ condnum <- function(M) {
   max(ev) / min(ev)
 }
 
-gls_egger <- function(bx_tilde, by_tilde, Omega) {
+gls_egger <- function(bx_tilde, by_tilde, Omega, lambda = Lambda[keepF]) {
   n <- length(bx_tilde)
   p <- 2L
 
@@ -199,6 +199,7 @@ gls_egger <- function(bx_tilde, by_tilde, Omega) {
     ))
   }
 
+  Lambda <- diag(lambda, nrow = length(lambda), ncol = length(lambda))
   Omega_inv <- Lambda %*% Omega_inv
 
   XtOiX <- t(X) %*% Omega_inv %*% X
@@ -646,7 +647,7 @@ pca_mr_gegger_gene <- function(bx, by, sex, sey, ld, N_X,
 
   if (k < 3) return(out)
 
-  fit <- gls_egger(bx1, by1, Omega = Omega1)
+  fit <- gls_egger(bx1, by1, Omega = Omega1, lambda = Lambda[keepF])
 
   out$gegger_intercept <- fit$intercept
   out$gegger_slope <- fit$slope
