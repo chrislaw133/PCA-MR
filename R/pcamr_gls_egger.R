@@ -6,7 +6,7 @@
 #'
 #' @return Egger fit object.
 #' @keywords internal
-.pcamr_gls_egger <- function(bx_tilde, by_tilde, Omega) {
+.pcamr_gls_egger <- function(bx_tilde, by_tilde, Omega, Lambda) {
   n <- length(bx_tilde)
 
   if (length(by_tilde) != n) stop("Length mismatch between bx_tilde and by_tilde.")
@@ -53,6 +53,8 @@
       Q_pval = NA_real_
     ))
   }
+
+  Omega_inv <- Lambda %*% Omega_inv
 
   XtOiX <- t(X) %*% Omega_inv %*% X
   bread <- tryCatch(solve(XtOiX), error = function(e) NULL)
