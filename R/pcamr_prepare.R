@@ -57,6 +57,8 @@
   if (length(keep) < min_modes) return(NULL)
   if (!is.finite(kappa) || kappa > kappa_max) return(NULL)
 
+  cumvar_explained <- sum(lambda[keep]) / sum(lambda)
+
   SigmaX <- SigX_pc[keep, keep, drop = FALSE]
   SigmaY <- SigY_pc[keep, keep, drop = FALSE]
 
@@ -70,6 +72,7 @@
     SigmaY = SigmaY,
     keep = keep,
     n_modes = length(keep),
+    var_explained = cumvar_explained,
     kappa = kappa,
     lambda = lambda[keep],
     erank = .pcamr_effective_rank(lambda[keep])
