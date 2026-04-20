@@ -26,7 +26,7 @@ vector <- as.numeric(readLines("path/to/vector.txt")
 
 ### Usage
 
-###PCA-MR-IVW
+### PCA-MR-IVW
 
 ``` r
 library(PCAMR)
@@ -41,7 +41,7 @@ fit_ivw <- pcamr_ivw(
 )
 ```
 
-###PCA-MR-ML
+### PCA-MR-ML
 
 ``` r
 library(PCAMR)
@@ -57,7 +57,7 @@ fit_ml <- pcamr_ml(
 )
 ```
 
-###PCA-MR-Egger
+### PCA-MR-Egger
 
 ``` r
 library(PCAMR)
