@@ -54,7 +54,7 @@ pcamr_ml <- function(bx, by, bxse, byse, ld,
     kappa_max = kappa_max,
     model = model
   )
-  theta0 <- if (!is.null(init_ivw) && is.finite(init_ivw$slope)) init_ivw$slope else 0
+  theta0 <- if (!is.null(init_ivw)) init_ivw$slope else 0
 
   loglikelihoodcorrel <- function(param, x, Taux, y, Tauy) {
     k <- length(x)
