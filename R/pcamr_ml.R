@@ -19,7 +19,6 @@ pcamr_ml <- function(bx, by, bxse, byse, ld,
                      kappa_max = 100,
                      model = c("random", "fixed"),
                      alpha = 0.05) {
-  model <- match.arg(model)
 
   pc <- .pcamr_prepare(
     bx = bx, by = by, bxse = bxse, byse = byse, ld = ld,
@@ -54,7 +53,7 @@ pcamr_ml <- function(bx, by, bxse, byse, ld,
     kappa_max = kappa_max,
     model = model
   )
-  theta0 <- if (!is.null(init_ivw)) init_ivw$slope else 0
+  theta0 <- if (!is.null(init_ivw)) init_ivw$slope else print("test")
 
   loglikelihoodcorrel <- function(param, x, Taux, y, Tauy) {
     k <- length(x)
