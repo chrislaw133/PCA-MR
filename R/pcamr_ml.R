@@ -115,9 +115,16 @@ pcamr_ml <- function(bx, by, bxse, byse, ld,
 
   heter_stat <- 2 * opt$value
   heter_df <- k - 1
-  heter_p <- if (heter_df > 0) pchisq(heter_stat, df = heter_df, lower.tail = FALSE) else NA_real_
-  rse <- if (heter_df > 0) sqrt(heter_stat / heter_df) else NA_real_
-
+  
+  if (is.finite(heter_stat) && heter_stat < 0) {
+    warning("Likelihood is negative; estimates are likely misleading and should be interpreted with caution!")
+    heter_p <- NA_real_
+    rse <- NA_real_
+  } else {
+    heter_p <- if (heter_df > 0) pchisq(heter_stat, df = heter_df, lower.tail = FALSE) else NA_real_
+    rse <- if (heter_df > 0) sqrt(heter_stat / heter_df) else NA_real_
+  }
+  
   list(
     method = "PCA-MR-ML",
     theta = theta,
