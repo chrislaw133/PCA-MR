@@ -71,7 +71,7 @@ fit_egger <- pcamr_egger(
 )
 ```
 
-##References
+## References
 
 Yavorska, O. O., & Burgess, S. (2017). MendelianRandomization: An R package for performing Mendelian randomization analyses using summarized data. International Journal of Epidemiology, 46(6), 1734–1739. https://doi.org/10.1093/ije/dyx034
 
