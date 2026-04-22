@@ -18,10 +18,14 @@ library(data.table)
 ld <- as.matrix(fread(cmd = "unzstd -c plink.zst"))
 ```
 
-### Read in vectors 
+### Read in summary statistics
 
 ``` r
-vector <- as.numeric(readLines("path/to/vector.txt")
+bx <- as.numeric(readLines("path/to/bx.txt")
+by <- as.numeric(readLines("path/to/by.txt")
+bxse <- as.numeric(readLines("path/to/bxse.txt")
+byse <- as.numeric(readLines("path/to/byse.txt")
+
 ```
 
 ## Usage
