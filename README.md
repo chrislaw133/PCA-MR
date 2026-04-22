@@ -37,7 +37,7 @@ fit_ivw <- pcamr_ivw(
   bxse = bxse,
   byse = byse,
   ld = ld,
-  model = "random" #"fixed" or "random", "random" is recommended
+  model = "random" #or "fixed"
 )
 ```
 
@@ -53,7 +53,7 @@ fit_ml <- pcamr_ml(
   byse = byse,
   ld = ld,
   alpha = 0.05,
-  model = "random" #"fixed" or "random", "random" is recommended
+  model = "random" #or "fixed"
 )
 ```
 
